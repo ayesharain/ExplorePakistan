@@ -1,0 +1,88 @@
+﻿@model ExplorePakistan.Models.Destination
+@{
+    ViewBag.Title = "Edit - " + Model.Name;
+}
+
+<section class="py-5" style="margin-top:70px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="fw-bold mb-4">
+                            <i class="fas fa-edit text-primary me-2"></i>Edit: @Model.Name
+                        </h2>
+
+                        @using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { @class = "row g-3" }))
+                        {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.HiddenFor(m => m.CreatedAt)
+
+                        <div class="col-md-8">
+                            <label class="form-label fw-bold">Destination Name</label>
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger small" })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Category</label>
+                            @Html.DropDownList("CategoryId", null, new { @class = "form-select" })
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Province</label>
+                            @Html.DropDownListFor(m => m.Province,
+                                new SelectList(new[] { "Punjab", "Sindh", "Khyber Pakhtunkhwa", "Balochistan", "Gilgit-Baltistan", "Azad Kashmir", "Islamabad" }),
+                                new { @class = "form-select" })
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">City</label>
+                            @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Description</label>
+                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = 4 })
+                            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger small" })
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Image URL</label>
+                            @Html.TextBoxFor(m => m.ImageUrl, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Best Time to Visit</label>
+                            @Html.TextBoxFor(m => m.BestTimeToVisit, new { @class = "form-control" })
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Things to Do</label>
+                            @Html.TextAreaFor(m => m.ThingsToDo, new { @class = "form-control", rows = 2 })
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">How to Reach</label>
+                            @Html.TextAreaFor(m => m.HowToReach, new { @class = "form-control", rows = 2 })
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                @Html.CheckBoxFor(m => m.IsFeatured, new { @class = "form-check-input" })
+                                <label class="form-check-label">Featured Destination</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-check-input" })
+                                <label class="form-check-label">Active (visible on site)</label>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <button type="submit" class="btn btn-emerald btn-lg">
+                                <i class="fas fa-save me-2"></i>Update Destination
+                            </button>
+                            <a href="@Url.Action("Destinations", "Admin")" class="btn btn-outline-secondary btn-lg ms-2">
+                                Cancel
+                            </a>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

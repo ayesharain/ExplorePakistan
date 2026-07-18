@@ -1,0 +1,96 @@
+﻿@model List<ExplorePakistan.Models.Destination>
+@{
+    ViewBag.Title = "Destinations";
+    var categories = ViewBag.Categories as List<ExplorePakistan.Models.Category>;
+}
+
+<section class="py-5" style="margin-top:70px;">
+    <div class="container">
+        <div class="text-center mb-4">
+            <span class="text-success fw-bold text-uppercase small">Discover</span>
+            <h1 class="fw-bold">All Destinations</h1>
+            <p class="text-muted">Browse Pakistan's most stunning locations across all provinces.</p>
+        </div>
+
+        <!-- Search & Filter -->
+        @using (Html.BeginForm("Index", "Destination", FormMethod.Get, new { @class = "row g-3 mb-4" }))
+        {
+        <div class="col-md-6">
+            <input type="text" name="search" class="form-control form-control-lg"
+                   placeholder="🔍 Search destinations..." value="@ViewBag.CurrentSearch" />
+        </div>
+        <div class="col-md-4">
+            <select name="categoryId" class="form-select form-select-lg">
+                <option value="">All Categories</option>
+                @if (categories != null)
+                    {
+                        foreach (var cat in categories)
+                        {
+                            if (ViewBag.CurrentCategory != null && (int)ViewBag.CurrentCategory == cat.Id)
+                            {
+                <option value="@cat.Id" selected>@cat.Icon @cat.Name</option>
+                            }
+                            else
+                            {
+                <option value="@cat.Id">@cat.Icon @cat.Name</option>
+                            }
+                        }
+                    }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-emerald btn-lg w-100">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </div>
+        }
+
+        <!-- Results Grid -->
+        <div class="row g-4">
+            @foreach (var dest in Model)
+            {
+            <div class="col-md-6 col-lg-4">
+                <a href="@Url.Action("Details", "Destination", new { id = dest.Id })" class="text-decoration-none">
+                    <div class="card dest-card h-100 fade-in">
+                        <div style="overflow:hidden; border-radius:16px 16px 0 0; position:relative;">
+                            <img src="@(dest.ImageUrl ?? "https://via.placeholder.com/400x250")"
+                                 class="card-img-top" style="height:200px;object-fit:cover;" alt="@dest.Name" />
+                            <span class="badge position-absolute top-0 start-0 m-2
+                                    @(dest.Category.Name == "Mountains" ? "badge-mountains" :
+                                      dest.Category.Name == "Beaches" ? "badge-beaches" :
+                                      dest.Category.Name == "Historical" ? "badge-historical" :
+                                      dest.Category.Name == "Cultural" ? "badge-cultural" :
+                                      dest.Category.Name == "Adventure" ? "badge-adventure" : "badge-religious")">
+                                @dest.Category?.Name
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold text-dark">@dest.Name</h5>
+                            <p class="text-muted small">
+                                @(dest.Description.Length > 100 ? dest.Description.Substring(0, 100) + "..." : dest.Description)
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <i class="fas fa-map-marker-alt text-danger"></i> @dest.Province
+                                </small>
+                                <span class="stars small">
+                                    ★ @dest.AverageRating.ToString("F1") (@dest.Reviews.Count)
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            }
+        </div>
+
+        @if (!Model.Any())
+        {
+        <div class="text-center py-5">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">No destinations found</h4>
+            <p class="text-muted">Try adjusting your search or filters.</p>
+        </div>
+        }
+    </div>
+</section>

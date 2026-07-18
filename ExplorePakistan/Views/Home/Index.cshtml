@@ -1,0 +1,266 @@
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var categories = ViewBag.Categories as List<ExplorePakistan.Models.Category>;
+    var featured = ViewBag.FeaturedDestinations as List<ExplorePakistan.Models.Destination>;
+}
+
+<!-- HERO SLIDESHOW WITH KEN BURNS -->
+<section class="hero-section">
+    <div class="hero-slide active" style="background-image:url('/Content/Images/hero1.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('/Content/Images/hero2.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('/Content/Images/hero3.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('/Content/Images/hero4.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('/Content/Images/hero5.jpg')"></div>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+        <span class="badge bg-warning text-dark px-3 py-2 mb-3 fs-6 fade-in">
+            ✨ #1 Travel Guide for Pakistan
+        </span>
+        <h1 class="display-2 fw-bold mb-3 fade-in stagger-1">
+            Discover the <span style="color:#f0a500">Magic</span> of Pakistan
+        </h1>
+        <p class="lead mb-4 mx-auto fade-in stagger-2" style="max-width:600px;">
+            From K2's summit to the shores of Gwadar — 6 categories, 50+ destinations, thousands of unforgettable experiences.
+        </p>
+        <div class="fade-in stagger-3">
+            <a href="@Url.Action("Index", "Destination")" class="btn btn-gradient btn-lg me-3">
+                Explore Now <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+            <a href="@Url.Action("Register", "Account")" class="btn btn-outline-light btn-lg">
+                Join Community
+            </a>
+        </div>
+
+        <div class="row g-4 mt-5 justify-content-center fade-in stagger-4">
+            <div class="col-auto text-center">
+                <h3 class="fw-bold mb-0">50+</h3>
+                <small class="text-light opacity-75">Destinations</small>
+            </div>
+            <div class="col-auto text-center">
+                <h3 class="fw-bold mb-0">6</h3>
+                <small class="text-light opacity-75">Categories</small>
+            </div>
+            <div class="col-auto text-center">
+                <h3 class="fw-bold mb-0">4.8★</h3>
+                <small class="text-light opacity-75">Avg Rating</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CATEGORIES WITH HOVER ZOOM -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="text-success fw-bold text-uppercase small fade-in">Categories</span>
+            <h2 class="fw-bold display-6 fade-in stagger-1">Explore by Interest</h2>
+            <p class="text-muted fade-in stagger-2">Whatever adventure calls to you, Pakistan delivers.</p>
+        </div>
+        <div class="row g-3">
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="@Url.Action("Index", "Destination", new { categoryId = 1 })" class="text-decoration-none">
+                    <div class="cat-card fade-in stagger-1">
+                        <img src="/Content/Images/k2.jpg" alt="Mountains" />
+                        <div class="cat-card-overlay">
+                            <div>
+                                <h6 class="fw-bold mb-0">🏔️ Mountains</h6>
+                                <small>10 places</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="@Url.Action("Index", "Destination", new { categoryId = 2 })" class="text-decoration-none">
+                    <div class="cat-card fade-in stagger-2">
+                        <img src="/Content/Images/gwadar.jpg" alt="Beaches" />
+                        <div class="cat-card-overlay">
+                            <div>
+                                <h6 class="fw-bold mb-0">🏖️ Beaches</h6>
+                                <small>8 places</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="@Url.Action("Index", "Destination", new { categoryId = 3 })" class="text-decoration-none">
+                    <div class="cat-card fade-in stagger-3">
+                        <img src="/Content/Images/badshahi.jpg" alt="Historical" />
+                        <div class="cat-card-overlay">
+                            <div>
+                                <h6 class="fw-bold mb-0">🏛️ Historical</h6>
+                                <small>11 places</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="@Url.Action("Index", "Destination", new { categoryId = 4 })" class="text-decoration-none">
+                    <div class="cat-card fade-in stagger-4">
+                        <img src="/Content/Images/kalash.jpg" alt="Cultural" />
+                        <div class="cat-card-overlay">
+                            <div>
+                                <h6 class="fw-bold mb-0">🎭 Cultural</h6>
+                                <small>8 places</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="@Url.Action("Index", "Destination", new { categoryId = 5 })" class="text-decoration-none">
+                    <div class="cat-card fade-in stagger-5">
+                        <img src="/Content/Images/kkh.jpg" alt="Adventure" />
+                        <div class="cat-card-overlay">
+                            <div>
+                                <h6 class="fw-bold mb-0">🧗 Adventure</h6>
+                                <small>10 places</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="@Url.Action("Index", "Destination", new { categoryId = 6 })" class="text-decoration-none">
+                    <div class="cat-card fade-in stagger-6">
+                        <img src="/Content/Images/faisal.jpg" alt="Religious" />
+                        <div class="cat-card-overlay">
+                            <div>
+                                <h6 class="fw-bold mb-0">🕌 Religious</h6>
+                                <small>11 places</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURED DESTINATIONS -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="text-success fw-bold text-uppercase small fade-in">Featured</span>
+            <h2 class="fw-bold display-6 fade-in stagger-1">Must-Visit Destinations</h2>
+        </div>
+        <div class="row g-4">
+            @if (featured != null && featured.Any())
+            {
+                var index = 0;
+                foreach (var dest in featured)
+                {
+                    index++;
+            <div class="col-md-6 col-lg-3">
+                <a href="@Url.Action("Details", "Destination", new { id = dest.Id })" class="text-decoration-none">
+                    <div class="dest-card fade-in stagger-@index">
+                        <div class="dest-card-bg" style="background-image:url('@(dest.ImageUrl ?? "/Content/Images/mountains.jpg")')"></div>
+                        <div class="dest-card-content">
+                            <span class="badge bg-warning text-dark mb-2 align-self-start">@(dest.Category != null ? dest.Category.Name : "General")</span>
+                            <h5 class="fw-bold mb-1">@dest.Name</h5>
+                            <small><i class="fas fa-map-marker-alt me-1"></i>@dest.Province</small>
+                            <div class="stars mt-1">
+                                @for (int i = 0; i < 5; i++)
+                                        {
+                                            if (i < (int)Math.Round(dest.AverageRating))
+                                            {
+                                @:★
+                                            }
+                                            else
+                                            {
+                                @:☆
+                                            }
+                                        }
+                                <small class="text-light ms-1">(@(dest.Reviews != null ? dest.Reviews.Count : 0))</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+                }
+            }
+        </div>
+        <div class="text-center mt-4">
+            <a href="@Url.Action("Index", "Destination")" class="btn btn-emerald btn-lg fade-in">
+                View All Destinations <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- PARALLAX SECTION -->
+<section class="parallax-section py-5" style="background-image:url('/Content/Images/hero1.jpg');">
+    <div class="parallax-overlay"></div>
+    <div class="container position-relative text-white text-center py-5" style="z-index:2">
+        <h2 class="display-5 fw-bold mb-3 fade-in">From K2 to the Arabian Sea</h2>
+        <p class="lead mb-0 fade-in stagger-1" style="max-width:700px; margin:0 auto;">
+            Pakistan is home to 5 of the world's 14 highest peaks, one of the oldest civilizations on Earth, and some of the most pristine beaches you'll ever see.
+        </p>
+    </div>
+</section>
+
+<!-- TRAVEL TIPS -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="text-success fw-bold text-uppercase small fade-in">Plan Your Trip</span>
+            <h2 class="fw-bold display-6 fade-in stagger-1">Travel Tips</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4 fade-in stagger-1">
+                <div class="card border-0 shadow-sm h-100 p-4" style="border-radius:16px">
+                    <div class="fs-1 mb-3">🗓️</div>
+                    <h5 class="fw-bold">Best Seasons</h5>
+                    <p class="text-muted small mb-0">
+                        North (Mountains): May – Sep<br />
+                        Beaches: Oct – Mar<br />
+                        Lahore/Islamabad: Oct – Apr<br />
+                        K2 Treks: Jun – Aug
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in stagger-2">
+                <div class="card border-0 shadow-sm h-100 p-4" style="border-radius:16px">
+                    <div class="fs-1 mb-3">📋</div>
+                    <h5 class="fw-bold">Permits &amp; Safety</h5>
+                    <p class="text-muted small mb-0">
+                        K2/Glaciers: NOC from Pakistan Alpine Club<br />
+                        Gwadar: Check entry rules before travel<br />
+                        AJK: Entry permit for foreigners<br />
+                        Gilgit-Baltistan: Carry CNIC/Passport
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in stagger-3">
+                <div class="card border-0 shadow-sm h-100 p-4" style="border-radius:16px">
+                    <div class="fs-1 mb-3">💡</div>
+                    <h5 class="fw-bold">Good to Know</h5>
+                    <p class="text-muted small mb-0">
+                        Currency: Pakistani Rupee (PKR)<br />
+                        Languages: Urdu, English, Punjabi, Pashto<br />
+                        SIM registration required at arrival<br />
+                        Weather varies greatly by region
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5">
+    <div class="container">
+        <div class="cta-section text-white text-center py-5 px-4 fade-in">
+            <h2 class="fw-bold display-5 mb-3">Ready to Explore Pakistan?</h2>
+            <p class="lead mb-4">Join thousands of travelers who discovered Pakistan's hidden gems.</p>
+            <a href="@Url.Action("Register", "Account")" class="btn btn-light btn-lg fw-bold px-4">
+                Get Started Free <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>

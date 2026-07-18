@@ -1,0 +1,187 @@
+﻿@model ExplorePakistan.Models.Destination
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<!-- Hero Image -->
+<section class="text-white d-flex align-items-end" style="min-height:50vh;
+    background-image: linear-gradient(to top, rgba(0,0,0,0.7), transparent 60%),
+    url('@(Model.ImageUrl ?? "/Content/Images/mountains.jpg")');
+    background-size: cover; background-position: center;
+    padding-top:80px;">
+    <div class="container pb-4">
+        <span class="badge bg-success mb-2 fade-in">@(Model.Category != null ? Model.Category.Name : "General")</span>
+        <h1 class="display-4 fw-bold fade-in stagger-1">@Model.Name</h1>
+        <p class="fade-in stagger-2">
+            <i class="fas fa-map-marker-alt me-1"></i> @Model.City, @Model.Province
+        </p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm mb-4 fade-in">
+                    <div class="card-body p-4">
+                        <h3 class="fw-bold mb-3">
+                            <i class="fas fa-info-circle text-success me-2"></i>About This Destination
+                        </h3>
+                        <p class="text-muted" style="line-height:1.8">@Model.Description</p>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.ThingsToDo))
+                {
+                <div class="card border-0 shadow-sm mb-4 fade-in">
+                    <div class="card-body p-4">
+                        <h4 class="fw-bold mb-3">
+                            <i class="fas fa-hiking text-warning me-2"></i>Things to Do
+                        </h4>
+                        <p class="text-muted">@Model.ThingsToDo</p>
+                    </div>
+                </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.HowToReach))
+                {
+                <div class="card border-0 shadow-sm mb-4 fade-in">
+                    <div class="card-body p-4">
+                        <h4 class="fw-bold mb-3">
+                            <i class="fas fa-route text-primary me-2"></i>How to Reach
+                        </h4>
+                        <p class="text-muted">@Model.HowToReach</p>
+                    </div>
+                </div>
+                }
+
+                <!-- Reviews Section -->
+                <div class="card border-0 shadow-sm fade-in">
+                    <div class="card-body p-4">
+                        <h3 class="fw-bold mb-4">
+                            <i class="fas fa-star text-warning me-2"></i>Reviews (@(Model.Reviews != null ? Model.Reviews.Count : 0))
+                        </h3>
+
+                        @if (Model.Reviews != null && Model.Reviews.Any())
+                        {
+                            foreach (var review in Model.Reviews.OrderByDescending(r => r.CreatedAt))
+                            {
+                        <div class="bg-light rounded-3 p-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1a7f5a,#2d9b7a);display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:0.8rem;">
+                                        @(review.User != null && !string.IsNullOrEmpty(review.User.FullName) ? review.User.FullName.Substring(0, 1) : "U")
+                                    </div>
+                                    <strong>@(review.User != null ? review.User.FullName : "Anonymous")</strong>
+                                </div>
+                                <small class="text-muted">@review.CreatedAt.ToString("MMM dd, yyyy")</small>
+                            </div>
+                            <div class="stars mb-2">
+                                @for (int i = 0; i < review.Rating; i++)
+                                        {
+                                @:★
+                                        }
+                                @for (int i = review.Rating; i < 5; i++)
+                                        {
+                                @:☆
+                                        }
+                            </div>
+                            <p class="text-muted mb-0">@review.Comment</p>
+                        </div>
+                            }
+                        }
+                        else
+                        {
+                        <p class="text-muted">No reviews yet. Be the first to review this destination!</p>
+                        }
+
+                        <!-- Add Review Form -->
+                        @if (Request.IsAuthenticated)
+                        {
+                        <hr class="my-4" />
+                        <h5 class="fw-bold mb-3">Write a Review</h5>
+                            using (Html.BeginForm("Create", "Review", FormMethod.Post))
+                            {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="destinationId" value="@Model.Id" />
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Rating</label>
+                            <select name="rating" class="form-select" style="width:150px;" required>
+                                <option value="5">★★★★★ Excellent</option>
+                                <option value="4">★★★★☆ Good</option>
+                                <option value="3">★★★☆☆ Average</option>
+                                <option value="2">★★☆☆☆ Poor</option>
+                                <option value="1">★☆☆☆☆ Terrible</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Your Review</label>
+                            <textarea name="comment" class="form-control" rows="3"
+                                      placeholder="Share your experience..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-emerald">
+                            <i class="fas fa-paper-plane me-1"></i> Submit Review
+                        </button>
+                            }
+                        }
+                        else
+                        {
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle me-1"></i>
+                            <a href="@Url.Action("Login", "Account")">Log in</a> to write a review.
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm mb-3 fade-in">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3">
+                            <i class="fas fa-clipboard-list text-success me-2"></i>Quick Info
+                        </h5>
+                        <table class="table table-sm mb-0">
+                            <tr>
+                                <td class="text-muted">Category</td>
+                                <td class="fw-bold">@(Model.Category != null ? Model.Category.Icon + " " + Model.Category.Name : "General")</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Province</td>
+                                <td class="fw-bold">@Model.Province</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">City</td>
+                                <td class="fw-bold">@(Model.City ?? "N/A")</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Best Time</td>
+                                <td class="fw-bold">@(Model.BestTimeToVisit ?? "Year-round")</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Rating</td>
+                                <td class="fw-bold">
+                                    <span class="stars">★ @Model.AverageRating.ToString("F1")</span>
+                                    <small class="text-muted">(@(Model.Reviews != null ? Model.Reviews.Count : 0) reviews)</small>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm fade-in">
+                    <div class="card-body p-4 text-center">
+                        <h6 class="fw-bold mb-2">Share This Destination</h6>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="#" class="btn btn-outline-primary btn-sm"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="btn btn-outline-info btn-sm"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="btn btn-outline-success btn-sm"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

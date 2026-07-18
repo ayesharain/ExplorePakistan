@@ -1,0 +1,81 @@
+﻿@model List<ExplorePakistan.Models.Destination>
+@{
+    ViewBag.Title = "Destinations";
+    var categories = ViewBag.Categories as List<ExplorePakistan.Models.Category>;
+}
+
+<section class="py-5" style="margin-top:80px;">
+    <div class="container">
+        <div class="text-center mb-4">
+            <span class="text-success fw-bold text-uppercase small fade-in">Discover</span>
+            <h1 class="fw-bold display-5 fade-in stagger-1">All Destinations</h1>
+            <p class="text-muted fade-in stagger-2">50+ incredible places across Pakistan's diverse landscape.</p>
+        </div>
+
+        <!-- Search -->
+        @using (Html.BeginForm("Index", "Destination", FormMethod.Get, new { @class = "row g-3 mb-4 fade-in stagger-2" }))
+        {
+        <div class="col-md-8">
+            <input type="text" name="search" class="form-control form-control-lg" style="border-radius:12px;"
+                   placeholder="🔍 Search destinations..." value="@ViewBag.CurrentSearch" />
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-emerald btn-lg w-100">
+                <i class="fas fa-search me-1"></i> Search
+            </button>
+        </div>
+        }
+
+        <!-- Category Filter Buttons -->
+        <div class="d-flex flex-wrap gap-2 mb-4 justify-content-center fade-in stagger-3">
+            <a href="@Url.Action("Index", "Destination")" class="filter-btn @(ViewBag.CurrentCategory == null ? "active" : "")">All</a>
+            @if (categories != null)
+            {
+                foreach (var cat in categories)
+                {
+            <a href="@Url.Action("Index", "Destination", new { categoryId = cat.Id })"
+               class="filter-btn @(ViewBag.CurrentCategory != null && (int)ViewBag.CurrentCategory == cat.Id ? "active" : "")">
+                @cat.Icon @cat.Name
+            </a>
+                }
+            }
+        </div>
+
+        <!-- Destination Cards -->
+        <div class="row g-4">
+            @{
+                var idx = 0;
+            }
+            @foreach (var dest in Model)
+            {
+                idx++;
+            <div class="col-md-6 col-lg-4">
+                <a href="@Url.Action("Details", "Destination", new { id = dest.Id })" class="text-decoration-none">
+                    <div class="dest-card fade-in stagger-@(idx <= 6 ? idx : 6)">
+                        <div class="dest-card-bg" style="background-image:url('@(dest.ImageUrl ?? "/Content/Images/mountains.jpg")')"></div>
+                        <div class="dest-card-content">
+                            <span class="badge bg-success mb-2 align-self-start">@(dest.Category != null ? dest.Category.Name : "General")</span>
+                            <h5 class="fw-bold mb-1">@dest.Name</h5>
+                            <small><i class="fas fa-map-marker-alt me-1"></i>@dest.Province</small>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <span class="stars small">★ @dest.AverageRating.ToString("F1")</span>
+                                <small>@(dest.Reviews != null ? dest.Reviews.Count : 0) reviews</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            }
+        </div>
+
+        @if (!Model.Any())
+        {
+        <div class="text-center py-5 fade-in">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">No destinations found</h4>
+            <p class="text-muted">Try adjusting your search or filters.</p>
+            <a href="@Url.Action("Index", "Destination")" class="btn btn-emerald mt-2">View All</a>
+        </div>
+        }
+    </div>
+</section>

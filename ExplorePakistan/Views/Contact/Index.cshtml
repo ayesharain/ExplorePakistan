@@ -1,0 +1,84 @@
+﻿@model ExplorePakistan.Models.ContactMessage
+@{
+    ViewBag.Title = "Contact Us";
+}
+
+<section class="py-5" style="margin-top:70px;">
+    <div class="container">
+        <div class="row">
+            <!-- Contact Info -->
+            <div class="col-lg-5 mb-4">
+                <span class="text-success fw-bold text-uppercase small">Contact</span>
+                <h1 class="fw-bold mb-3">Get in Touch</h1>
+                <p class="text-muted mb-4">
+                    Questions about a destination, want to suggest a new place, or need travel advice?
+                    We'd love to hear from you.
+                </p>
+
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);display:flex;align-items:center;justify-content:center;">
+                        <i class="fas fa-envelope text-success"></i>
+                    </div>
+                    <span>contact@explorepakistan.com</span>
+                </div>
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#fff8e1,#ffecb3);display:flex;align-items:center;justify-content:center;">
+                        <i class="fas fa-phone text-warning"></i>
+                    </div>
+                    <span>+92 300 1234567</span>
+                </div>
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#fbe9e7,#ffccbc);display:flex;align-items:center;justify-content:center;">
+                        <i class="fas fa-map-marker-alt text-danger"></i>
+                    </div>
+                    <span>Islamabad, Pakistan</span>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="col-lg-7">
+                @if (TempData["Success"] != null)
+                {
+                <div class="alert alert-success animate__animated animate__fadeInDown">
+                    <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                </div>
+                }
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        @using (Html.BeginForm("Index", "Contact", FormMethod.Post, new { @class = "row g-3" }))
+                        {
+                        @Html.AntiForgeryToken()
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Your Name</label>
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Full name" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger small" })
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Email</label>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "you@example.com" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger small" })
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Subject</label>
+                            @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", placeholder = "What's this about?" })
+                            @Html.ValidationMessageFor(m => m.Subject, "", new { @class = "text-danger small" })
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Message</label>
+                            @Html.TextAreaFor(m => m.Message, new { @class = "form-control", rows = 5, placeholder = "Tell us more..." })
+                            @Html.ValidationMessageFor(m => m.Message, "", new { @class = "text-danger small" })
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-emerald btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>Send Message
+                            </button>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
