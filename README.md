@@ -1,4 +1,9 @@
  🌍 Explore Pakistan – Tourism Management Web Application
+ 
+![ASP.NET MVC](https://img.shields.io/badge/ASP.NET-MVC-blue)
+![C#](https://img.shields.io/badge/C%23-.NET-purple)
+![SQL Server](https://img.shields.io/badge/Database-SQL%20Server-red)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-blueviolet)
 
 A modern tourism management web application built using **ASP.NET MVC 5**, designed to promote Pakistan's tourist destinations through an interactive and user-friendly platform. The application enables users to discover destinations, share reviews, and contact the administrators, while providing an admin dashboard for content management.
 
